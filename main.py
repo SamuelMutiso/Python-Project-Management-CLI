@@ -90,3 +90,65 @@ def list_projects(args):
 
     print(f"\nProjects for {args.user}:")
     print(tabulate(rows, headers=["Title", "Description", "Due Date", "Progress"], tablefmt="grid"))
+
+
+# Task commands 
+
+def add_task(args):
+    """Add a task to an existing project."""
+    projects = load_data(PROJECTS_FILE)
+    project_titles = [p["title"].lower() for p in projects]
+
+    if args.project.lower() not in project_titles:
+        print(f"No project named '{args.project}' found.")
+        return
+
+    tasks = load_data(TASKS_FILE)
+    task = Task(
+        title=args.title,
+        project_title=args.project,
+        assigned_to=args.assigned_to
+    )
+    tasks.append(task.to_dict())
+    save_data(TASKS_FILE, tasks)
+    print(f"Task '{args.title}' added to '{args.project}', assigned to {args.assigned_to}.")
+
+
+def complete_task(args):
+    """Mark a specific task as completed."""
+    tasks = load_data(TASKS_FILE)
+    found = False
+
+    for t in tasks:
+        if (t["title"].lower() == args.title.lower() and
+                t["project_title"].lower() == args.project.lower()):
+            task = Task(
+                title=t["title"],
+                project_title=t["project_title"],
+                assigned_to=t["assigned_to"],
+                status=t["status"]
+            )
+            task.mark_complete()
+            t["status"] = task.status
+            found = True
+            break
+
+    if found:
+        save_data(TASKS_FILE, tasks)
+        print(f"Task '{args.title}' marked as completed.")
+    else:
+        print(f"Task '{args.title}' in project '{args.project}' not found.")
+
+
+def list_tasks(args):
+    """Show all tasks for a given project."""
+    tasks = load_data(TASKS_FILE)
+    project_tasks = [t for t in tasks if t["project_title"].lower() == args.project.lower()]
+
+    if not project_tasks:
+        print(f"No tasks found for project '{args.project}'.")
+        return
+
+    rows = [[t["title"], t["assigned_to"], t["status"]] for t in project_tasks]
+    print(f"\nTasks for '{args.project}':")
+    print(tabulate(rows, headers=["Task", "Assigned To", "Status"], tablefmt="grid"))
