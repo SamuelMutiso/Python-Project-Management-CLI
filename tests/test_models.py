@@ -71,3 +71,30 @@ def test_task_to_dict_contains_expected_keys():
     assert "project_title" in d
     assert "assigned_to" in d
     assert "status" in d
+
+# Project tests 
+
+def test_project_to_dict():
+    project = Project(title="My App", description="A cool app", due_date="2025-09-01", owner="Alex")
+    d = project.to_dict()
+    assert d["title"] == "My App"
+    assert d["owner"] == "Alex"
+
+
+# Storage tests 
+
+def test_save_and_load_data(tmp_path):
+    test_file = str(tmp_path / "test_data.json")
+    sample = [{"name": "Charlie", "email": "charlie@test.com"}]
+
+    save_data(test_file, sample)
+    assert os.path.exists(test_file)
+
+    loaded = load_data(test_file)
+    assert loaded == sample
+
+
+def test_load_returns_empty_list_for_missing_file(tmp_path):
+    missing = str(tmp_path / "nonexistent.json")
+    result = load_data(missing)
+    assert result == []
