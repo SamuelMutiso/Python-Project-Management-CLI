@@ -1,4 +1,3 @@
-# tests/test_models.py
 # Unit tests for the Project Tracker models and storage utilities
 
 import os
@@ -7,17 +6,17 @@ from lib.models import User, Project, Task
 from utils.storage import load_data, save_data
 
 
-# --- User tests ---
+# User tests
 
 def test_user_has_correct_name_and_email():
-    user = User(name="Alex", email="alex@student.com")
+    user = User(name="Alex", email="Alex@student.com")
     assert user.name == "Alex"
-    assert user.email == "alex@student.com"
+    assert user.email == "Alex@student.com"
 
 
 def test_user_inherits_from_person():
     # User should have a .name attribute from the Person base class
-    user = User(name="Brian", email="brian@test.com")
+    user = User(name="Brian", email="Brian@test.com")
     assert hasattr(user, "name")
     assert user.name == "Brian"
 
@@ -45,3 +44,30 @@ def test_user_str():
     user = User(name="Eve", email="eve@test.com")
     assert "Eve" in str(user)
     assert "eve@test.com" in str(user)
+
+
+# Task tests
+def test_task_default_status_is_pending():
+    task = Task(title="Write tests", project_title="CLI Tool", assigned_to="Alex")
+    assert task.status == "pending"
+
+
+def test_task_mark_complete():
+    task = Task(title="Write tests", project_title="CLI Tool", assigned_to="Alex")
+    task.mark_complete()
+    assert task.status == "completed"
+
+
+def test_task_status_setter_rejects_invalid():
+    task = Task(title="Write tests", project_title="CLI Tool", assigned_to="Alex")
+    with pytest.raises(ValueError):
+        task.status = "in-progress"  # not allowed
+
+
+def test_task_to_dict_contains_expected_keys():
+    task = Task(title="Deploy app", project_title="Backend", assigned_to="Brian")
+    d = task.to_dict()
+    assert "title" in d
+    assert "project_title" in d
+    assert "assigned_to" in d
+    assert "status" in d
