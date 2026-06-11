@@ -14,7 +14,7 @@ class User(Person):
     # Inherits from Person, adds email with validation
     def __init__(self, name, email):
         super().__init__(name)
-        self._email = email  # private, validated through property setter
+        self.email = email  # private, validated through property setter
 
     @property
     def email(self):
@@ -62,5 +62,43 @@ class Project:
     def __repr__(self):
         return f"Project(title={self.title}, owner={self.owner})"
 
+# class task
+class Task:
+    # A single task that lives inside a project
+    # status is controlled through a property to prevent bad values
+    VALID_STATUSES = ["pending", "completed"]
+
+    def __init__(self, title, project_title, assigned_to, status="pending"):
+        self.title = title
+        self.project_title = project_title
+        self.assigned_to = assigned_to
+        self._status = status.lower()
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, value):
+        if value.lower() not in self.VALID_STATUSES:
+            raise ValueError(f"Status must be one of {self.VALID_STATUSES}, got '{value}'")
+        self._status = value.lower()
+
+    def mark_complete(self):
+        self._status = "completed"
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "project_title": self.project_title,
+            "assigned_to": self.assigned_to,
+            "status": self.status
+        }
+
+    def __str__(self):
+        return f"Task: {self.title} | Project: {self.project_title} | Assigned: {self.assigned_to} | Status: {self.status}"
+
+    def __repr__(self):
+        return f"Task(title={self.title}, status={self.status})"
 
 
