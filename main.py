@@ -42,3 +42,51 @@ def list_users(args):
 
     rows = [[u["name"], u["email"]] for u in users]
     print(tabulate(rows, headers=["Name", "Email"], tablefmt="grid"))
+
+# Project commands 
+
+def add_project(args):
+    """Add a new project under an existing user."""
+    users = load_data(USERS_FILE)
+    user_names = [u["name"].lower() for u in users]
+
+    if args.user.lower() not in user_names:
+        print(f"No user named '{args.user}' found. Please add them first.")
+        return
+
+    projects = load_data(PROJECTS_FILE)
+    project = Project(
+        title=args.title,
+        description=args.description,
+        due_date=args.due_date,
+        owner=args.user
+    )
+    projects.append(project.to_dict())
+    save_data(PROJECTS_FILE, projects)
+    print(f"Project '{args.title}' added for {args.user}.")
+
+
+def list_projects(args):
+    """Show all projects for a given user, with task progress."""
+    projects = load_data(PROJECTS_FILE)
+    tasks = load_data(TASKS_FILE)
+
+# filter down to this user's projects
+    user_projects = [p for p in projects if p["owner"].lower() == args.user.lower()]
+
+    if not user_projects:
+        print(f"No projects found for '{args.user}'.")
+        return
+
+    rows = []
+    for p in user_projects:
+        # count how many tasks are done vs total
+        project_tasks = [t for t in tasks if t["project_title"].lower() == p["title"].lower()]
+        done = sum(1 for t in project_tasks if t["status"] == "completed")
+        total = len(project_tasks)
+        progress = f"{done}/{total} done" if total > 0 else "no tasks yet"
+
+        rows.append([p["title"], p["description"], p["due_date"], progress])
+
+    print(f"\nProjects for {args.user}:")
+    print(tabulate(rows, headers=["Title", "Description", "Due Date", "Progress"], tablefmt="grid"))
