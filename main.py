@@ -152,3 +152,60 @@ def list_tasks(args):
     rows = [[t["title"], t["assigned_to"], t["status"]] for t in project_tasks]
     print(f"\nTasks for '{args.project}':")
     print(tabulate(rows, headers=["Task", "Assigned To", "Status"], tablefmt="grid"))
+
+
+#  CLI setup 
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Project Tracker - manage users, projects, and tasks from the command line"
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # add-user
+    p_add_user = subparsers.add_parser("add-user", help="Register a new user")
+    p_add_user.add_argument("--name", required=True, help="User's full name")
+    p_add_user.add_argument("--email", required=True, help="User's email address")
+    p_add_user.set_defaults(func=add_user)
+
+    # list-users
+    p_list_users = subparsers.add_parser("list-users", help="Show all users")
+    p_list_users.set_defaults(func=list_users)
+
+    # add-project
+    p_add_project = subparsers.add_parser("add-project", help="Create a project for a user")
+    p_add_project.add_argument("--title", required=True, help="Project title")
+    p_add_project.add_argument("--description", default="No description provided", help="Short description")
+    p_add_project.add_argument("--due-date", dest="due_date", required=True, help="Due date e.g. 2025-08-01")
+    p_add_project.add_argument("--user", required=True, help="Owner's name")
+    p_add_project.set_defaults(func=add_project)
+
+    # list-projects
+    p_list_projects = subparsers.add_parser("list-projects", help="Show projects for a user")
+    p_list_projects.add_argument("--user", required=True, help="User's name")
+    p_list_projects.set_defaults(func=list_projects)
+
+    # add-task
+    p_add_task = subparsers.add_parser("add-task", help="Add a task to a project")
+    p_add_task.add_argument("--project", required=True, help="Project title")
+    p_add_task.add_argument("--title", required=True, help="Task title")
+    p_add_task.add_argument("--assigned-to", dest="assigned_to", required=True, help="Who is doing this task")
+    p_add_task.set_defaults(func=add_task)
+
+    # complete-task
+    p_complete = subparsers.add_parser("complete-task", help="Mark a task as done")
+    p_complete.add_argument("--project", required=True, help="Project the task belongs to")
+    p_complete.add_argument("--title", required=True, help="Task title")
+    p_complete.set_defaults(func=complete_task)
+
+    # list-tasks
+    p_list_tasks = subparsers.add_parser("list-tasks", help="Show tasks for a project")
+    p_list_tasks.add_argument("--project", required=True, help="Project title")
+    p_list_tasks.set_defaults(func=list_tasks)
+
+    args = parser.parse_args()
+    args.func(args)
+
+
+if __name__ == "__main__":
+    main()
