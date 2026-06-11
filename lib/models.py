@@ -38,3 +38,29 @@ class User(Person):
 
     def __repr__(self):
         return f"User(name={self.name}, email={self.email})"
+
+# class project
+class Project:
+    # Represents a project that belongs to a user
+    def __init__(self, title, description, due_date, owner):
+        self.title = title
+        self.description = description
+        self.due_date = due_date
+        self.owner = owner  # username string - links project to a user
+
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "description": self.description,
+            "due_date": self.due_date,
+            "owner": self.owner
+        }
+
+    def __str__(self):
+        return f"[{self.title}] owned by {self.owner} | due: {self.due_date}"
+
+    def __repr__(self):
+        return f"Project(title={self.title}, owner={self.owner})"
+
+
+
