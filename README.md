@@ -27,7 +27,7 @@ pipenv install
 ### 3. Activate the virtual environment
 
 ```bash
-pipenv shell
+python main.py add-user --name "Alex" --email "alex@example.com" 
 ```
 
 

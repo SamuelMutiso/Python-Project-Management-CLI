@@ -30,5 +30,13 @@
     {
         "name": "Ethan",
         "email": "ethan@moringa.edu"
+    },
+    {
+        "name": "Brian",
+        "email": "brian@student.com"
+    },
+    {
+        "name": "omar",
+        "email": "omar@dev.io"
     }
 ]

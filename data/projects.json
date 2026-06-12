@@ -52,5 +52,11 @@
         "description": "OAuth2 auth gateway",
         "due_date": "2026-07-30",
         "owner": "Ethan"
+    },
+    {
+        "title": "portal build",
+        "description": "rebuilding a system",
+        "due_date": "2026-09-15",
+        "owner": "omar"
     }
 ]
