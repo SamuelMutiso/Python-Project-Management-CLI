@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 tabulate = "*"
 pytest = "*"
+python-dateutil = "*"
 
 [dev-packages]
 
