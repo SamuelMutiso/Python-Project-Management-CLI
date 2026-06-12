@@ -11,10 +11,16 @@ class Person:
 
 
 class User(Person):
+
+    # Class attribute - tracks total users created across the system
+    _count = 0
+
+
     # Inherits from Person, adds email with validation
     def __init__(self, name, email):
         super().__init__(name)
         self.email = email  # private, validated through property setter
+        User._count += 1    # Increment the class-level counter
 
     @property
     def email(self):
@@ -41,12 +47,18 @@ class User(Person):
 
 # class project
 class Project:
+
+    # Class attribute - tracks total projects created across the system
+    _count = 0
+
+
     # Represents a project that belongs to a user
     def __init__(self, title, description, due_date, owner):
         self.title = title
         self.description = description
         self.due_date = due_date
         self.owner = owner  # username string - links project to a user
+        Project._count += 1 # Increment the class-level counter
 
     def to_dict(self):
         return {
@@ -64,7 +76,11 @@ class Project:
 
 # class task
 class Task:
-    # A single task that lives inside a project
+    # Class attribute - tracks total tasks created across the system
+    _count = 0
+
+
+    
     # status is controlled through a property to prevent bad values
     VALID_STATUSES = ["pending", "completed"]
 
@@ -73,6 +89,7 @@ class Task:
         self.project_title = project_title
         self.assigned_to = assigned_to
         self._status = status.lower()
+        Task._count += 1    # Increment the class-level counter
 
     @property
     def status(self):

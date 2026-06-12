@@ -1,6 +1,8 @@
 # main.py - this is like entry point for the Project Tracker CLI
 # Run with: python main.py <command> [options]
 
+
+from dateutil.parser import parse as parse_date
 import argparse
 from tabulate import tabulate
 
@@ -47,6 +49,14 @@ def list_users(args):
 
 def add_project(args):
     """Add a new project under an existing user."""
+    #  Validate due date before doing anything else
+    try:
+        parse_date(args.due_date)
+    except ValueError:
+        print(f"Invalid date format: '{args.due_date}'. Please use a standard format like YYYY-MM-DD.")
+        return
+
+
     users = load_data(USERS_FILE)
     user_names = [u["name"].lower() for u in users]
 

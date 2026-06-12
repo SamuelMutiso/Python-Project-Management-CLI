@@ -98,3 +98,49 @@ def test_load_returns_empty_list_for_missing_file(tmp_path):
     missing = str(tmp_path / "nonexistent.json")
     result = load_data(missing)
     assert result == []
+
+from unittest.mock import patch, MagicMock
+from main import add_user, add_project, complete_task
+
+def test_add_user_saves_to_file(tmp_path):
+    users_file = str(tmp_path / "users.json")
+    save_data(users_file, [])
+    with patch("main.USERS_FILE", users_file):
+        args = MagicMock()
+        args.name = "TestUser"
+        args.email = "test@test.com"
+        add_user(args)
+        result = load_data(users_file)
+        assert any(u["name"] == "TestUser" for u in result)
+
+def test_add_user_rejects_duplicate(tmp_path, capsys):
+    users_file = str(tmp_path / "users.json")
+    save_data(users_file, [{"name": "Alex", "email": "alex@test.com"}])
+    with patch("main.USERS_FILE", users_file):
+        args = MagicMock()
+        args.name = "Alex"
+        args.email = "alex@test.com"
+        add_user(args)
+        assert "already exists" in capsys.readouterr().out
+
+def test_complete_task_updates_status(tmp_path):
+    tasks_file = str(tmp_path / "tasks.json")
+    save_data(tasks_file, [{"title": "Fix bug", "project_title": "MyApp", "assigned_to": "Alex", "status": "pending"}])
+    with patch("main.TASKS_FILE", tasks_file):
+        args = MagicMock()
+        args.title = "Fix bug"
+        args.project = "MyApp"
+        complete_task(args)
+        assert load_data(tasks_file)[0]["status"] == "completed"
+
+def test_add_project_rejects_unknown_user(tmp_path, capsys):
+    users_file = str(tmp_path / "users.json")
+    save_data(users_file, [])
+    with patch("main.USERS_FILE", users_file):
+        args = MagicMock()
+        args.user = "Ghost"
+        args.title = "X"
+        args.description = "desc"
+        args.due_date = "2025-09-01"
+        add_project(args)
+        assert "No user named" in capsys.readouterr().out
