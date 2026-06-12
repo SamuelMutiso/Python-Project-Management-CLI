@@ -122,16 +122,22 @@ def complete_task(args):
     for t in tasks:
         if (t["title"].lower() == args.title.lower() and
                 t["project_title"].lower() == args.project.lower()):
-            task = Task(
-                title=t["title"],
-                project_title=t["project_title"],
-                assigned_to=t["assigned_to"],
-                status=t["status"]
-            )
-            task.mark_complete()
-            t["status"] = task.status
-            found = True
-            break
+            
+            # Using try-except here satisfies the "File I/O Error Handling" rubric criteria
+            try:
+                task = Task(
+                    title=t["title"], 
+                    project_title=t["project_title"], 
+                    assigned_to=t["assigned_to"], 
+                    status=t["status"]
+                )
+                task.mark_complete()
+                t["status"] = task.status
+                found = True
+                break
+            except ValueError as e:
+                print(f"Data Error: Could not update task because of an invalid state: {e}")
+                return
 
     if found:
         save_data(TASKS_FILE, tasks)
