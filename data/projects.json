@@ -1,0 +1,56 @@
+[
+    {
+        "title": "Tracker App",
+        "description": "Build a clean Python CLI tool",
+        "due_date": "2026-07-01",
+        "owner": "Alex"
+    },
+    {
+        "title": "CLI Tracker",
+        "description": "Building an OOP app",
+        "due_date": "2026-08-01",
+        "owner": "Samuel"
+    },
+    {
+        "title": "CLI Tool",
+        "description": "Build the tracker",
+        "due_date": "2025-08-01",
+        "owner": "Alex"
+    },
+    {
+        "title": "interview",
+        "description": "make slides",
+        "due_date": "2029-08-11",
+        "owner": "joy"
+    },
+    {
+        "title": "E-Commerce App",
+        "description": "Full stack store",
+        "due_date": "2026-09-01",
+        "owner": "Alice"
+    },
+    {
+        "title": "Mobile Game",
+        "description": "Unity 2D platformer",
+        "due_date": "2026-10-15",
+        "owner": "Bob"
+    },
+    {
+        "title": "AI Chatbot",
+        "description": "LLM integration layer",
+        "due_date": "2026-08-20",
+        "owner": "Charlie"
+    },
+    {
+        "title": "Fitness Tracker",
+        "description": "Wearable sync dashboard",
+        "due_date": "2026-11-01",
+        "owner": "Diana"
+    },
+    {
+        "title": "Secure API",
+        "description": "OAuth2 auth gateway",
+        "due_date": "2026-07-30",
+        "owner": "Ethan"
+    }
+]

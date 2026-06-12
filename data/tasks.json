@@ -1,0 +1,62 @@
+[
+    {
+        "title": "Configure Argparse",
+        "project_title": "Tracker App",
+        "assigned_to": "Alex",
+        "status": "completed"
+    },
+    {
+        "title": "Write Pytest Tests",
+        "project_title": "Tracker App",
+        "assigned_to": "Alex",
+        "status": "pending"
+    },
+    {
+        "title": "Write tests",
+        "project_title": "CLI Tool",
+        "assigned_to": "Brian",
+        "status": "completed"
+    },
+    {
+        "title": "Setup Stripe Database",
+        "project_title": "E-Commerce App",
+        "assigned_to": "Alice",
+        "status": "pending"
+    },
+    {
+        "title": "Design Frontend UI",
+        "project_title": "E-Commerce App",
+        "assigned_to": "Bob",
+        "status": "pending"
+    },
+    {
+        "title": "Build Physics Engine",
+        "project_title": "Mobile Game",
+        "assigned_to": "Bob",
+        "status": "pending"
+    },
+    {
+        "title": "Configure API Keys",
+        "project_title": "AI Chatbot",
+        "assigned_to": "Charlie",
+        "status": "pending"
+    },
+    {
+        "title": "Setup Frontend Streamlit",
+        "project_title": "AI Chatbot",
+        "assigned_to": "Diana",
+        "status": "completed"
+    },
+    {
+        "title": "Map Bluetooth Core",
+        "project_title": "Fitness Tracker",
+        "assigned_to": "Diana",
+        "status": "completed"
+    },
+    {
+        "title": "Implement JWT Tokens",
+        "project_title": "Secure API",
+        "assigned_to": "Ethan",
+        "status": "pending"
+    }
+]

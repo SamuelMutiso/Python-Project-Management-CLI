@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Alex",
+        "email": "alex@moringa.edu"
+    },
+    {
+        "name": "Samuel",
+        "email": "samuel@example.com"
+    },
+    {
+        "name": "joy",
+        "email": "nthenya@gmail.com"
+    },
+    {
+        "name": "Alice",
+        "email": "alice@moringa.edu"
+    },
+    {
+        "name": "Bob",
+        "email": "bob@moringa.edu"
+    },
+    {
+        "name": "Charlie",
+        "email": "charlie@moringa.edu"
+    },
+    {
+        "name": "Diana",
+        "email": "diana@moringa.edu"
+    },
+    {
+        "name": "Ethan",
+        "email": "ethan@moringa.edu"
+    }
+]
