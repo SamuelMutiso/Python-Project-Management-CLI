@@ -169,7 +169,37 @@ def list_tasks(args):
     print(f"\nTasks for '{args.project}':")
     print(tabulate(rows, headers=["Task", "Assigned To", "Status"], tablefmt="grid"))
 
+def delete_task(args):
+    """Delete a specific task from a project."""
+    tasks = load_data(TASKS_FILE)
+    original_length = len(tasks)
 
+    # Keep every task EXCEPT the one that matches our title and project
+    tasks = [
+        t for t in tasks 
+        if not (t["title"].lower() == args.title.lower() and t["project_title"].lower() == args.project.lower())
+    ]
+
+    if len(tasks) < original_length:
+        save_data(TASKS_FILE, tasks)
+        print(f"Task '{args.title}' has been successfully deleted from project '{args.project}'.")
+    else:
+        print(f"Task '{args.title}' in project '{args.project}' not found.")
+
+
+def delete_user(args):
+    """Delete a user from the system."""
+    users = load_data(USERS_FILE)
+    original_length = len(users)
+
+    # Keep every user EXCEPT the one that matches the name
+    users = [u for u in users if u["name"].lower() != args.name.lower()]
+
+    if len(users) < original_length:
+        save_data(USERS_FILE, users)
+        print(f"User '{args.name}' has been successfully deleted.")
+    else:
+        print(f"User '{args.name}' not found.")
 #  CLI setup 
 
 def main():
@@ -218,6 +248,18 @@ def main():
     p_list_tasks = subparsers.add_parser("list-tasks", help="Show tasks for a project")
     p_list_tasks.add_argument("--project", required=True, help="Project title")
     p_list_tasks.set_defaults(func=list_tasks)
+
+
+    # delete-task
+    p_delete_task = subparsers.add_parser("delete-task", help="Delete a task from a project")
+    p_delete_task.add_argument("--project", required=True, help="Project title")
+    p_delete_task.add_argument("--title", required=True, help="Task title")
+    p_delete_task.set_defaults(func=delete_task)
+
+    # delete-user
+    p_delete_user = subparsers.add_parser("delete-user", help="Delete a user profile")
+    p_delete_user.add_argument("--name", required=True, help="User's name")
+    p_delete_user.set_defaults(func=delete_user)
 
     args = parser.parse_args()
     args.func(args)
